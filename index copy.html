@@ -14,6 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <style>
       /* Reset and Base Styles */
       * {
@@ -40,6 +41,7 @@
         line-height: 1.6;
         overflow-x: hidden;
         background-color: var(--light);
+        scroll-behavior: smooth;
       }
 
       h1,
@@ -993,6 +995,70 @@
         background: var(--primary-dark);
       }
 
+      /* Loading Animation */
+      .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--light);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(224, 28, 61, 0.2);
+        border-radius: 50%;
+        border-top: 5px solid var(--primary);
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Back to Top Button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 999;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px);
+      }
+
       /* Animations */
       @keyframes fadeUp {
         from {
@@ -1193,10 +1259,27 @@
         .testimonial {
           padding: 25px;
         }
+
+        .back-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 40px;
+          height: 40px;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Loading Animation -->
+    <div class="loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
     <!-- Header & Navigation -->
     <header>
       <div class="container header-inner">
@@ -1205,7 +1288,7 @@
         </a>
         <nav>
           <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="#home">Home</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#portfolio">Portfolio</a></li>
@@ -1320,7 +1403,7 @@
               photography, we approach each project with innovation, precision,
               and attention to detail.
             </p>
-            <a href="about.html" class="btn">Learn More About Us</a>
+            <a href="#contact" class="btn">Start Your Project</a>
           </div>
           <div class="about-image">
             <img
@@ -1492,7 +1575,7 @@
         <div class="news-grid">
           <div class="news-card animate-on-scroll">
             <img
-              src="images/clubconsultafrica.png"
+              src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="YAC Media Partners with Club Consult Africa"
               class="news-img"
             />
@@ -1562,7 +1645,11 @@
                 </p>
               </div>
               <div class="testimonial-author">
-                <img src="images/logo.png" alt="Client" class="author-img" />
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                  alt="Client"
+                  class="author-img"
+                />
                 <h4>Kwame Adjekum</h4>
                 <p>Marketing Director, Ghana Gold Enterprises</p>
               </div>
@@ -1576,7 +1663,11 @@
                 </p>
               </div>
               <div class="testimonial-author">
-                <img src="images/logo.png" alt="Client" class="author-img" />
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                  alt="Client"
+                  class="author-img"
+                />
                 <h4>Abena Sarpong</h4>
                 <p>CEO, Nubian Beauty</p>
               </div>
@@ -1590,7 +1681,11 @@
                 </p>
               </div>
               <div class="testimonial-author">
-                <img src="images/logo.png" alt="Client" class="author-img" />
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                  alt="Client"
+                  class="author-img"
+                />
                 <h4>Nana Ama & Kofi Mensah</h4>
                 <p>Wedding Clients</p>
               </div>
@@ -1615,7 +1710,7 @@
         <div class="team-grid">
           <div class="team-member animate-on-scroll">
             <img
-              src="images/team/yussifchibsah.jpg"
+              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
               alt="Team Member"
               class="team-img"
             />
@@ -1636,7 +1731,7 @@
           </div>
           <div class="team-member animate-on-scroll">
             <img
-              src="images/team/godfred.jpg"
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
               alt="Team Member"
               class="team-img"
             />
@@ -1652,7 +1747,7 @@
           </div>
           <div class="team-member animate-on-scroll">
             <img
-              src="images/team/michaelattah.jpg"
+              src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
               alt="Team Member"
               class="team-img"
             />
@@ -1740,7 +1835,7 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-about">
-            <a href="home" class="footer-logo">
+            <a href="#home" class="footer-logo">
               <img src="images/logo.png" alt="YAC Media Productions" />
             </a>
             <p>
@@ -1823,15 +1918,45 @@
     </div>
 
     <script>
+      // Loading animation
+      window.addEventListener("load", function () {
+        const loader = document.querySelector(".loader");
+        setTimeout(function () {
+          loader.style.opacity = "0";
+          setTimeout(function () {
+            loader.style.display = "none";
+          }, 500);
+        }, 1000);
+      });
+
       // Header scroll effect
       window.addEventListener("scroll", function () {
         const header = document.querySelector("header");
+        const backToTop = document.querySelector(".back-to-top");
+
         if (window.scrollY > 100) {
           header.classList.add("scrolled");
         } else {
           header.classList.remove("scrolled");
         }
+
+        // Show/hide back to top button
+        if (window.scrollY > 500) {
+          backToTop.classList.add("visible");
+        } else {
+          backToTop.classList.remove("visible");
+        }
       });
+
+      // Back to top functionality
+      document
+        .querySelector(".back-to-top")
+        .addEventListener("click", function () {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
 
       // Mobile navigation
       const hamburger = document.querySelector(".hamburger");
