@@ -289,18 +289,17 @@
         background: white;
       }
 
-      /* Hero Section for About Page */
+      /* Hero Section for About Page - Updated to cover navbar */
       .about-hero {
-        height: 60vh;
+        height: 100vh;
         background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
-        position: inherit;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
         color: white;
         overflow: hidden;
-        margin-top: 80px;
       }
 
       .about-hero-video {
@@ -334,6 +333,37 @@
         opacity: 0;
         transform: translateY(30px);
         animation: fadeUp 1s ease forwards 0.8s;
+      }
+
+      /* Back to Top Button - Updated to bottom right */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 999;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px);
       }
 
       /* About Story Section */
@@ -1289,7 +1319,7 @@
         }
 
         .about-hero {
-          height: 50vh;
+          height: 100vh; /* Keep full height on mobile too */
         }
 
         .showcase-container {
@@ -1342,6 +1372,13 @@
         .logo img {
           max-width: 260px;
         }
+
+        .back-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 45px;
+          height: 45px;
+        }
       }
 
       @media (max-width: 576px) {
@@ -1383,6 +1420,13 @@
         .stats-grid {
           grid-template-columns: repeat(2, 1fr);
         }
+
+        .back-to-top {
+          bottom: 15px;
+          right: 15px;
+          width: 40px;
+          height: 40px;
+        }
       }
     </style>
   </head>
@@ -1392,7 +1436,7 @@
       <div class="loader-spinner"></div>
     </div>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top Button - Moved to bottom right -->
     <div class="back-to-top">
       <i class="fas fa-arrow-up"></i>
     </div>
@@ -1423,7 +1467,7 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - Updated to cover navbar -->
     <section class="about-hero">
       <video autoplay muted loop playsinline class="about-hero-video">
         <source
@@ -2085,7 +2129,7 @@
               const timer = setInterval(() => {
                 current += increment;
                 if (current >= target) {
-                  clearInterval(ttimer);
+                  clearInterval(timer);
                   statNumber.textContent = target;
                 } else {
                   statNumber.textContent = Math.floor(current);

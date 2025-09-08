@@ -172,7 +172,7 @@
         margin-bottom: 60px;
       }
 
-      /* Header & Navigation - Same as homepage */
+      /* Header & Navigation - Updated for transparent effect */
       header {
         position: fixed;
         top: 0;
@@ -181,13 +181,29 @@
         z-index: 1000;
         padding: 15px 0;
         transition: var(--transition);
-        background: rgba(0, 0, 0, 0.4);
+        background: transparent;
       }
 
       header.scrolled {
         background: rgba(255, 255, 255, 0.95);
         padding: 10px 0;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-top {
+        background: transparent;
+      }
+
+      .header-top .nav-links a {
+        color: white;
+      }
+
+      .header-top .hamburger div {
+        background: white;
+      }
+
+      .header-top .logo img {
+        filter: brightness(0) invert(1); /* Makes logo white */
       }
 
       .header-inner {
@@ -200,6 +216,7 @@
         display: flex;
         align-items: center;
         height: 70px;
+        transition: var(--transition);
       }
 
       .logo img {
@@ -211,7 +228,7 @@
       }
 
       header.scrolled .logo img {
-        filter: brightness(0.8);
+        filter: none;
       }
 
       .nav-links {
@@ -225,15 +242,19 @@
       }
 
       .nav-links a {
-        color: var(--light);
+        color: var(--secondary);
         text-decoration: none;
         font-weight: 500;
         transition: var(--transition);
         position: relative;
       }
 
-      header.scrolled .nav-links a {
-        color: var(--secondary);
+      .header-top .nav-links a {
+        color: black;
+      }
+
+      .header-top .nav-links a:after {
+        background: white;
       }
 
       .nav-links a:after {
@@ -259,18 +280,18 @@
       .hamburger div {
         width: 25px;
         height: 3px;
-        background: var(--light);
+        background: var(--secondary);
         margin: 5px;
         transition: var(--transition);
       }
 
-      header.scrolled .hamburger div {
-        background: var(--secondary);
+      .header-top .hamburger div {
+        background: white;
       }
 
-      /* Hero Section for About Page */
+      /* Hero Section for About Page - Updated to cover navbar */
       .about-hero {
-        height: 60vh;
+        height: 100vh;
         background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
         position: relative;
         display: flex;
@@ -279,7 +300,6 @@
         text-align: center;
         color: white;
         overflow: hidden;
-        margin-top: 80px;
       }
 
       .about-hero-video {
@@ -313,6 +333,37 @@
         opacity: 0;
         transform: translateY(30px);
         animation: fadeUp 1s ease forwards 0.8s;
+      }
+
+      /* Back to Top Button - Updated to bottom right */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 999;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px);
       }
 
       /* About Story Section */
@@ -391,27 +442,72 @@
         transform: scale(1.1);
       }
 
-      /* Values Section */
+      /* REDESIGNED: Values Section */
       .values-section {
         padding: 100px 0;
         background: var(--light);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .values-section::before {
+        content: "";
+        position: absolute;
+        top: -100px;
+        right: -100px;
+        width: 300px;
+        height: 300px;
+        background: rgba(224, 28, 61, 0.05);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .values-section::after {
+        content: "";
+        position: absolute;
+        bottom: -150px;
+        left: -150px;
+        width: 400px;
+        height: 400px;
+        background: rgba(243, 169, 0, 0.05);
+        border-radius: 50%;
+        z-index: 0;
       }
 
       .values-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 30px;
         margin-top: 50px;
+        position: relative;
+        z-index: 1;
       }
 
       .value-card {
         background: white;
-        border-radius: 10px;
+        border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        transition: var(--transition);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
         opacity: 0;
         transform: translateY(50px);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .value-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
       }
 
       .value-card.visible {
@@ -421,26 +517,100 @@
 
       .value-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .value-card:hover::before {
+        transform: scaleX(1);
       }
 
       .value-icon {
-        background: var(--primary);
-        height: 100px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--primary-dark) 100%
+        );
+        height: 120px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.5rem;
+        font-size: 2.8rem;
         color: white;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .value-card:hover .value-icon {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark) 0%,
+          var(--primary) 100%
+        );
+      }
+
+      .value-icon::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: all 0.5s ease;
+      }
+
+      .value-card:hover .value-icon::after {
+        transform: rotate(45deg) translate(20px, 20px);
       }
 
       .value-content {
-        padding: 25px;
+        padding: 30px;
+        text-align: center;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
       .value-content h3 {
         margin-bottom: 15px;
         color: var(--primary);
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .value-card:hover .value-content h3 {
+        color: var(--primary-dark);
+      }
+
+      .value-content p {
+        color: var(--text-light);
+        margin-bottom: 20px;
+      }
+
+      .value-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        transition: var(--transition);
+        margin-top: auto;
+      }
+
+      .value-link i {
+        margin-left: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .value-link:hover {
+        color: var(--primary-dark);
+      }
+
+      .value-link:hover i {
+        transform: translateX(5px);
       }
 
       /* NEW: Creative Showcase Section */
@@ -574,12 +744,19 @@
 
       .showcase-item:hover .showcase-overlay {
         opacity: 1;
+        backdrop-filter: blur(2px);
       }
 
       .showcase-caption {
         color: white;
         text-align: center;
         padding: 20px;
+        transform: translateY(20px);
+        transition: transform 0.5s ease;
+      }
+
+      .showcase-item:hover .showcase-caption {
+        transform: translateY(0);
       }
 
       /* NEW: Client Showcase Section */
@@ -1142,7 +1319,7 @@
         }
 
         .about-hero {
-          height: 50vh;
+          height: 100vh; /* Keep full height on mobile too */
         }
 
         .showcase-container {
@@ -1195,6 +1372,13 @@
         .logo img {
           max-width: 260px;
         }
+
+        .back-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 45px;
+          height: 45px;
+        }
       }
 
       @media (max-width: 576px) {
@@ -1236,6 +1420,13 @@
         .stats-grid {
           grid-template-columns: repeat(2, 1fr);
         }
+
+        .back-to-top {
+          bottom: 15px;
+          right: 15px;
+          width: 40px;
+          height: 40px;
+        }
       }
     </style>
   </head>
@@ -1245,13 +1436,13 @@
       <div class="loader-spinner"></div>
     </div>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top Button - Moved to bottom right -->
     <div class="back-to-top">
       <i class="fas fa-arrow-up"></i>
     </div>
 
     <!-- Header & Navigation -->
-    <header>
+    <header class="header-top">
       <div class="container header-inner">
         <a href="index.html" class="logo">
           <img src="images/logo.png" alt="YAC Media Productions" />
@@ -1276,11 +1467,11 @@
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - Updated to cover navbar -->
     <section class="about-hero">
       <video autoplay muted loop playsinline class="about-hero-video">
         <source
-          src="https://assets.mixkit.co/videos/46353/46353-720.mp4"
+          src="https://assets.mixkit.co/videos/48778/48778-720.mp4"
           type="video/mp4"
         />
         Your browser does not support the video tag.
@@ -1342,7 +1533,7 @@
       </div>
     </section>
 
-    <!-- Values Section -->
+    <!-- REDESIGNED: Values Section -->
     <section class="values-section">
       <div class="container">
         <div class="section-title text-center">
@@ -1361,6 +1552,9 @@
                 the smallest details to deliver exceptional quality that exceeds
                 expectations.
               </p>
+              <a href="#" class="value-link"
+                >Learn more <i class="fas fa-arrow-right"></i
+              ></a>
             </div>
           </div>
           <div class="value-card animate-on-scroll">
@@ -1373,6 +1567,9 @@
                 We embrace new technologies and creative approaches to stay at
                 the forefront of media production trends and techniques.
               </p>
+              <a href="#" class="value-link"
+                >Learn more <i class="fas fa-arrow-right"></i
+              ></a>
             </div>
           </div>
           <div class="value-card animate-on-scroll">
@@ -1385,6 +1582,9 @@
                 We view our clients as creative partners, working closely with
                 them to understand their vision and bring it to life.
               </p>
+              <a href="#" class="value-link"
+                >Learn more <i class="fas fa-arrow-right"></i
+              ></a>
             </div>
           </div>
           <div class="value-card animate-on-scroll">
@@ -1397,6 +1597,9 @@
                 Our love for storytelling drives everything we do. We're not
                 just technicians—we're artists dedicated to our craft.
               </p>
+              <a href="#" class="value-link"
+                >Learn more <i class="fas fa-arrow-right"></i
+              ></a>
             </div>
           </div>
         </div>
@@ -1847,10 +2050,13 @@
       window.addEventListener("scroll", function () {
         const header = document.querySelector("header");
         const backToTop = document.querySelector(".back-to-top");
+        const logo = document.querySelector(".logo img");
 
         if (window.scrollY > 100) {
+          header.classList.remove("header-top");
           header.classList.add("scrolled");
         } else {
+          header.classList.add("header-top");
           header.classList.remove("scrolled");
         }
 
@@ -1859,6 +2065,17 @@
           backToTop.classList.add("visible");
         } else {
           backToTop.classList.remove("visible");
+        }
+      });
+
+      // Initialize header state on page load
+      window.addEventListener("load", function () {
+        const header = document.querySelector("header");
+        if (window.scrollY === 0) {
+          header.classList.add("header-top");
+        } else {
+          header.classList.remove("header-top");
+          header.classList.add("scrolled");
         }
       });
 
