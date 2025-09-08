@@ -215,6 +215,7 @@
         display: flex;
         align-items: center;
         height: 70px;
+        position: relative;
       }
 
       .logo img {
@@ -225,8 +226,23 @@
         transition: var(--transition);
       }
 
-      header.scrolled .logo img {
-        filter: brightness(0.8);
+      .logo img.logo-white {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 1;
+      }
+
+      .logo img.logo-colored {
+        opacity: 0;
+      }
+
+      header.scrolled .logo img.logo-white {
+        opacity: 0;
+      }
+
+      header.scrolled .logo img.logo-colored {
+        opacity: 1;
       }
 
       .nav-links {
@@ -379,12 +395,10 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         transition: var(--transition);
         opacity: 0;
-        transform: translateY(50px);
       }
 
       .service-card.visible {
         opacity: 1;
-        transform: translateY(0);
       }
 
       .service-card:hover {
@@ -426,12 +440,31 @@
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s ease;
+      }
+
+      .about-image.visible {
+        opacity: 1;
+        transform: translateX(0);
       }
 
       .about-image img {
         width: 100%;
         height: auto;
         display: block;
+      }
+
+      .about-text {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s ease;
+      }
+
+      .about-text.visible {
+        opacity: 1;
+        transform: translateX(0);
       }
 
       .about-text h3 {
@@ -459,6 +492,14 @@
         flex-wrap: wrap;
         gap: 15px;
         margin-bottom: 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+      }
+
+      .portfolio-filters.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       .filter-btn {
@@ -490,6 +531,14 @@
         position: relative;
         height: 250px;
         cursor: pointer;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.8s ease;
+      }
+
+      .portfolio-item.visible {
+        opacity: 1;
+        transform: scale(1);
       }
 
       .portfolio-img {
@@ -568,6 +617,14 @@
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(50px) rotate(5deg);
+        transition: all 0.8s ease;
+      }
+
+      .video-item.visible {
+        opacity: 1;
+        transform: translateY(0) rotate(0);
       }
 
       .ios-video-container {
@@ -639,6 +696,22 @@
         overflow: hidden;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         transition: var(--transition);
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.6s ease;
+      }
+
+      .news-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .news-card:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+
+      .news-card:nth-child(3) {
+        transition-delay: 0.4s;
       }
 
       .news-card:hover {
@@ -679,6 +752,14 @@
         margin: 50px auto 0;
         position: relative;
         overflow: hidden;
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 0.8s ease;
+      }
+
+      .testimonials-slider.visible {
+        opacity: 1;
+        transform: scale(1);
       }
 
       .testimonials {
@@ -754,11 +835,20 @@
         transition: var(--transition);
         opacity: 0;
         transform: translateY(50px);
+        transition: all 0.6s ease;
       }
 
       .team-member.visible {
         opacity: 1;
         transform: translateY(0);
+      }
+
+      .team-member:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+
+      .team-member:nth-child(3) {
+        transition-delay: 0.4s;
       }
 
       .team-member:hover {
@@ -819,6 +909,17 @@
         margin-top: 50px;
       }
 
+      .contact-info {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.8s ease;
+      }
+
+      .contact-info.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
       .contact-info h3 {
         margin-bottom: 20px;
         color: var(--accent);
@@ -838,6 +939,17 @@
         margin-right: 15px;
         color: var(--accent);
         font-size: 1.2rem;
+      }
+
+      .contact-form {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.8s ease;
+      }
+
+      .contact-form.visible {
+        opacity: 1;
+        transform: translateX(0);
       }
 
       .contact-form input,
@@ -1117,17 +1229,6 @@
         }
       }
 
-      .animate-on-scroll {
-        opacity: 0;
-        transform: translateY(50px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-      }
-
-      .animate-on-scroll.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
       /* iOS Specific Styles */
       .ios-video-container {
         position: relative;
@@ -1330,7 +1431,16 @@
     <header>
       <div class="container header-inner">
         <a href="index.html" class="logo">
-          <img src="images/logo.png" alt="YAC Media Productions" />
+          <img
+            src="images/logo-white.png"
+            class="logo-white"
+            alt="YAC Media Productions"
+          />
+          <img
+            src="images/logo.png"
+            class="logo-colored"
+            alt="YAC Media Productions"
+          />
         </a>
         <nav>
           <ul class="nav-links">
@@ -1382,7 +1492,7 @@
           </p>
         </div>
         <div class="services-grid">
-          <div class="service-card animate-on-scroll">
+          <div class="service-card" data-animation="fade">
             <div class="service-icon">
               <i class="fas fa-video"></i>
             </div>
@@ -1395,7 +1505,7 @@
               <a href="#" class="btn btn-secondary">Learn More</a>
             </div>
           </div>
-          <div class="service-card animate-on-scroll">
+          <div class="service-card" data-animation="fade" data-delay="0.2">
             <div class="service-icon">
               <i class="fas fa-camera"></i>
             </div>
@@ -1408,7 +1518,7 @@
               <a href="#" class="btn btn-secondary">Learn More</a>
             </div>
           </div>
-          <div class="service-card animate-on-scroll">
+          <div class="service-card" data-animation="fade" data-delay="0.4">
             <div class="service-icon">
               <i class="fas fa-photo-video"></i>
             </div>
@@ -1432,8 +1542,8 @@
           <h2>About YAC Media</h2>
           <p>Your story, our passion - capturing moments that matter</p>
         </div>
-        <div class="about-content animate-on-scroll">
-          <div class="about-text">
+        <div class="about-content">
+          <div class="about-text" data-animation="slide-right">
             <h3>Ghana's Premier Media Production Company</h3>
             <p>
               YAC Media Productions is a leading creative agency based in Accra,
@@ -1449,9 +1559,14 @@
               photography, we approach each project with innovation, precision,
               and attention to detail.
             </p>
-            <a href="#contact" class="btn">Start Your Project</a>
+            <span
+              ><a href="#contact" class="btn">Start Your Project</a>
+              <a href="about.html" class="btn btn-secondary"
+                >Learn More</a
+              ></span
+            >
           </div>
-          <div class="about-image">
+          <div class="about-image" data-animation="slide-left">
             <img
               src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="YAC Media Team"
@@ -1468,7 +1583,7 @@
           <h2>Our Portfolio</h2>
           <p>Explore our latest projects and creative work</p>
         </div>
-        <div class="portfolio-filters">
+        <div class="portfolio-filters" data-animation="fade">
           <button class="filter-btn active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="video">Video</button>
           <button class="filter-btn" data-filter="photo">Photography</button>
@@ -1478,7 +1593,11 @@
           </button>
         </div>
         <div class="portfolio-grid">
-          <div class="portfolio-item" data-category="video">
+          <div
+            class="portfolio-item"
+            data-category="video"
+            data-animation="zoom"
+          >
             <img
               src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="Video Production"
@@ -1489,7 +1608,12 @@
               <p>Brand storytelling for a leading Ghanaian company</p>
             </div>
           </div>
-          <div class="portfolio-item" data-category="photo">
+          <div
+            class="portfolio-item"
+            data-category="photo"
+            data-animation="zoom"
+            data-delay="0.1"
+          >
             <img
               src="https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="Photography"
@@ -1500,7 +1624,12 @@
               <p>Studio shoot for fashion brand</p>
             </div>
           </div>
-          <div class="portfolio-item" data-category="events">
+          <div
+            class="portfolio-item"
+            data-category="events"
+            data-animation="zoom"
+            data-delay="0.2"
+          >
             <img
               src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="Event Coverage"
@@ -1511,7 +1640,12 @@
               <p>Full video and photography coverage</p>
             </div>
           </div>
-          <div class="portfolio-item" data-category="commercial">
+          <div
+            class="portfolio-item"
+            data-category="commercial"
+            data-animation="zoom"
+            data-delay="0.3"
+          >
             <img
               src="https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="Commercial"
@@ -1522,7 +1656,12 @@
               <p>30-second spot for beverage company</p>
             </div>
           </div>
-          <div class="portfolio-item" data-category="video">
+          <div
+            class="portfolio-item"
+            data-category="video"
+            data-animation="zoom"
+            data-delay="0.4"
+          >
             <img
               src="https://plus.unsplash.com/premium_photo-1682146717223-874ac7dcc607?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Documentary"
@@ -1533,7 +1672,12 @@
               <p>Cultural heritage preservation project</p>
             </div>
           </div>
-          <div class="portfolio-item" data-category="photo">
+          <div
+            class="portfolio-item"
+            data-category="photo"
+            data-animation="zoom"
+            data-delay="0.5"
+          >
             <img
               src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="Portrait Photography"
@@ -1556,7 +1700,7 @@
           <p>Experience our work through these captivating video samples</p>
         </div>
         <div class="video-grid">
-          <div class="video-item animate-on-scroll">
+          <div class="video-item" data-animation="rotate">
             <div class="ios-video-container">
               <video muted loop playsinline>
                 <source
@@ -1573,7 +1717,7 @@
               <p>Client: Ghana Gold Enterprises</p>
             </div>
           </div>
-          <div class="video-item animate-on-scroll">
+          <div class="video-item" data-animation="rotate" data-delay="0.2">
             <div class="ios-video-container">
               <video muted loop playsinline>
                 <source
@@ -1590,7 +1734,7 @@
               <p>Client: Nubian Beauty</p>
             </div>
           </div>
-          <div class="video-item animate-on-scroll">
+          <div class="video-item" data-animation="rotate" data-delay="0.4">
             <div class="ios-video-container">
               <video muted loop playsinline>
                 <source
@@ -1619,7 +1763,7 @@
           <p>Stay updated with our latest projects and industry insights</p>
         </div>
         <div class="news-grid">
-          <div class="news-card animate-on-scroll">
+          <div class="news-card" data-animation="slide-up">
             <img
               src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="YAC Media Partners with Club Consult Africa"
@@ -1636,7 +1780,7 @@
               <a href="#" class="btn btn-secondary">Read More</a>
             </div>
           </div>
-          <div class="news-card animate-on-scroll">
+          <div class="news-card" data-animation="slide-up" data-delay="0.2">
             <img
               src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="News"
@@ -1652,7 +1796,7 @@
               <a href="#" class="btn btn-secondary">Read More</a>
             </div>
           </div>
-          <div class="news-card animate-on-scroll">
+          <div class="news-card" data-animation="slide-up" data-delay="0.4">
             <img
               src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
               alt="News"
@@ -1680,7 +1824,7 @@
           <h2>Client Testimonials</h2>
           <p>What our clients say about working with us</p>
         </div>
-        <div class="testimonials-slider">
+        <div class="testimonials-slider" data-animation="zoom">
           <div class="testimonials">
             <div class="testimonial">
               <div class="testimonial-content">
@@ -1742,7 +1886,7 @@
           <p>Meet the talented professionals behind YAC Media</p>
         </div>
         <div class="team-grid">
-          <div class="team-member animate-on-scroll">
+          <div class="team-member" data-animation="slide-up">
             <img
               src="images/team/yussifchibsah.jpg"
               alt="Team Member"
@@ -1763,7 +1907,7 @@
               </div>
             </div>
           </div>
-          <div class="team-member animate-on-scroll">
+          <div class="team-member" data-animation="slide-up" data-delay="0.2">
             <img
               src="images/team/godfred.jpg"
               alt="Team Member"
@@ -1779,7 +1923,7 @@
               </div>
             </div>
           </div>
-          <div class="team-member animate-on-scroll">
+          <div class="team-member" data-animation="slide-up" data-delay="0.4">
             <img
               src="images/team/michaelattah.jpg"
               alt="Team Member"
@@ -1807,7 +1951,7 @@
           <p>Ready to start your next project? Contact us today</p>
         </div>
         <div class="contact-container">
-          <div class="contact-info">
+          <div class="contact-info" data-animation="slide-right">
             <h3>Contact Information</h3>
             <div class="contact-details">
               <p>
@@ -1838,7 +1982,7 @@
               <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
           </div>
-          <div class="contact-form">
+          <div class="contact-form" data-animation="slide-left">
             <form
               id="projectForm"
               action="https://formspree.io/f/mvgakjww"
@@ -1980,6 +2124,9 @@
         } else {
           backToTop.classList.remove("visible");
         }
+
+        // Check scroll animations
+        checkScroll();
       });
 
       // Back to top functionality
@@ -2060,21 +2207,37 @@
         });
       });
 
-      // Animate on scroll
+      // Enhanced scroll animation with different effects
       function checkScroll() {
-        const elements = document.querySelectorAll(".animate-on-scroll");
+        const animatedElements = document.querySelectorAll("[data-animation]");
 
-        elements.forEach((element) => {
+        animatedElements.forEach((element) => {
           const elementPosition = element.getBoundingClientRect().top;
+          const elementBottom = element.getBoundingClientRect().bottom;
           const screenPosition = window.innerHeight / 1.3;
+          const screenBottom = window.innerHeight / 2;
 
-          if (elementPosition < screenPosition) {
-            element.classList.add("visible");
+          // Check if element is in viewport
+          if (
+            elementPosition < screenPosition &&
+            elementBottom > screenBottom
+          ) {
+            const animationType = element.getAttribute("data-animation");
+            const delay = element.getAttribute("data-delay") || 0;
+
+            // Apply animation based on type
+            setTimeout(() => {
+              element.style.transitionDelay = delay + "s";
+              element.classList.add("visible");
+            }, delay * 1000);
+          } else {
+            // Remove visible class when element is out of view
+            element.classList.remove("visible");
           }
         });
       }
 
-      window.addEventListener("scroll", checkScroll);
+      // Initial check on page load
       window.addEventListener("load", checkScroll);
 
       // iOS-specific fixes
