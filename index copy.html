@@ -477,10 +477,6 @@
         color: var(--primary);
       }
 
-      .about-text p {
-        margin-bottom: 25px;
-      }
-
       /* Portfolio Section */
       .portfolio {
         background: var(--secondary);
@@ -701,6 +697,7 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
         margin-top: 50px;
+        margin-bottom: 30px;
       }
 
       .news-card {
@@ -752,6 +749,11 @@
       }
 
       /* Testimonials Section */
+      .testimonials-section {
+        padding: 100px 0;
+        background-color: var(--light);
+      }
+
       .testimonials-slider {
         max-width: 1000px;
         margin: 50px auto 0;
@@ -785,12 +787,7 @@
         margin-bottom: 20px;
         font-style: italic;
         font-size: 1.1rem;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease;
-      }
-
-      .testimonial.visible .testimonial-content {
+        color: var(--text);
         opacity: 1;
         transform: translateY(0);
       }
@@ -799,12 +796,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.8s ease 0.3s;
-      }
-
-      .testimonial.visible .testimonial-author {
         opacity: 1;
         transform: translateY(0);
       }
@@ -1244,10 +1235,12 @@
 
       .modal-content h3 {
         margin-bottom: 15px;
+        color: var(--text);
       }
 
       .modal-content p {
         margin-bottom: 25px;
+        color: var(--text);
       }
 
       .modal-close {
@@ -1347,6 +1340,28 @@
         position: relative;
       }
 
+      /* Touch device improvements */
+      @media (hover: none) and (pointer: coarse) {
+        .portfolio-item {
+          cursor: default;
+        }
+
+        .portfolio-overlay {
+          opacity: 0.9;
+        }
+
+        .portfolio-overlay h3,
+        .portfolio-overlay p {
+          transform: translateY(0);
+        }
+
+        .service-card:hover,
+        .team-member:hover,
+        .news-card:hover {
+          transform: none;
+        }
+      }
+
       /* Responsive Design */
       @media (max-width: 992px) {
         h1 {
@@ -1420,6 +1435,10 @@
         .about-image {
           order: -1;
         }
+
+        .testimonial {
+          padding: 30px 20px;
+        }
       }
 
       @media (max-width: 768px) {
@@ -1469,6 +1488,14 @@
         .logo img {
           max-width: 260px;
         }
+
+        .testimonials-section {
+          padding: 80px 0;
+        }
+
+        .testimonial {
+          padding: 25px 15px;
+        }
       }
 
       @media (max-width: 576px) {
@@ -1517,7 +1544,7 @@
         }
 
         .testimonial {
-          padding: 25px;
+          padding: 20px 15px;
         }
 
         .back-to-top {
@@ -1525,6 +1552,10 @@
           right: 20px;
           width: 40px;
           height: 40px;
+        }
+
+        .testimonial-content {
+          font-size: 1rem;
         }
       }
     </style>
@@ -1888,10 +1919,7 @@
               <p>
                 We're excited to announce our partnership with Club Consult
                 Africa to capture professional images and videos of their
-                esteemed players, showcasing their talent and skills. We're
-                excited to announce our partnership with Club Consult Africa to
-                capture professional images and videos of their esteemed
-                players, showcasing their talent and skills.
+                esteemed players, showcasing their talent and skills.
               </p>
               <a href="#" class="btn btn-secondary">Read More</a>
             </div>
@@ -1906,8 +1934,6 @@
               <span class="news-date">May 28, 2023</span>
               <h3>New Studio Equipment Upgrade</h3>
               <p>
-                We've invested in state-of-the-art filming equipment to deliver
-                even higher quality productions for our clients across Ghana.
                 We've invested in state-of-the-art filming equipment to deliver
                 even higher quality productions for our clients across Ghana.
               </p>
@@ -1925,8 +1951,6 @@
               <h3>Behind the Scenes: Cultural Documentary</h3>
               <p>
                 Get an exclusive look at our latest project documenting
-                traditional Ghanaian festivals and their significance in modern
-                culture. Get an exclusive look at our latest project documenting
                 traditional Ghanaian festivals and their significance in modern
                 culture.
               </p>
@@ -2348,7 +2372,6 @@
 
             // Apply animation based on type
             setTimeout(() => {
-              element.style.transitionDelay = delay + "s";
               element.classList.add("visible");
             }, delay * 100);
           }
@@ -2365,23 +2388,40 @@
         const isIOS =
           /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-        if (isIOS) {
-          // Fix for portfolio items - add click event listeners
+        // Check if it's Safari
+        const isSafari = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
+
+        // Apply fixes for iOS or Safari
+        if (isIOS || isSafari) {
+          console.log("iOS/Safari detected - applying touch optimizations");
+
+          // Fix for portfolio items - add touch event listeners
           const portfolioItems = document.querySelectorAll(".portfolio-item");
           portfolioItems.forEach((item) => {
-            item.addEventListener("click", function (e) {
-              // Prevent default to avoid any unwanted behaviors
+            // Add touch start event
+            item.addEventListener("touchstart", function (e) {
               e.preventDefault();
               // Remove active class from all items
               portfolioItems.forEach((item) =>
                 item.classList.remove("ios-active")
               );
-              // Toggle a class to show the overlay on click
-              this.classList.toggle("ios-active");
+              // Add active class to this item
+              this.classList.add("ios-active");
+            });
+
+            // Add touch end event to document to remove active class
+            document.addEventListener("touchend", function (e) {
+              if (!e.target.closest(".portfolio-item")) {
+                portfolioItems.forEach((item) =>
+                  item.classList.remove("ios-active")
+                );
+              }
             });
           });
 
-          // Fix for video items - add click event listeners
+          // Fix for video items - add touch event listeners
           const videoContainers = document.querySelectorAll(
             ".ios-video-container"
           );
@@ -2389,7 +2429,7 @@
             const video = container.querySelector("video");
             const playButton = container.querySelector(".ios-play-button");
 
-            // Show play button initially
+            // Show play button initially for iOS
             if (playButton) playButton.style.display = "flex";
 
             // Handle video play on button click
@@ -2405,11 +2445,35 @@
                 }
               });
 
+              // Also make the video toggle play on touch
+              container.addEventListener("touchstart", function (e) {
+                e.stopPropagation();
+                if (video.paused) {
+                  video.play();
+                  playButton.style.display = "none";
+                } else {
+                  video.pause();
+                  playButton.style.display = "flex";
+                }
+              });
+
               // Show play button when video ends
               video.addEventListener("ended", function () {
                 if (playButton) playButton.style.display = "flex";
               });
             }
+          });
+
+          // Improve touch feedback for buttons
+          const buttons = document.querySelectorAll(".btn, .filter-btn");
+          buttons.forEach((btn) => {
+            btn.addEventListener("touchstart", function () {
+              this.style.transform = "scale(0.95)";
+            });
+
+            btn.addEventListener("touchend", function () {
+              this.style.transform = "";
+            });
           });
         } else {
           // For non-iOS devices, play videos on hover
