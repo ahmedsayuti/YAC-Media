@@ -88,6 +88,7 @@
         overflow-x: hidden;
         background-color: var(--light);
         scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS */
       }
 
       h1,
@@ -573,12 +574,10 @@
         text-align: center;
       }
 
-      .portfolio-item.ios-active .portfolio-overlay,
       .portfolio-item:hover .portfolio-overlay {
         opacity: 1;
       }
 
-      .portfolio-item.ios-active .portfolio-img,
       .portfolio-item:hover .portfolio-img {
         transform: scale(1.1);
         transition: transform 0.5s ease;
@@ -597,8 +596,6 @@
         transition: var(--transition);
       }
 
-      .portfolio-item.ios-active .portfolio-overlay h3,
-      .portfolio-item.ios-active .portfolio-overlay p,
       .portfolio-item:hover .portfolio-overlay h3,
       .portfolio-item:hover .portfolio-overlay p {
         transform: translateY(0);
@@ -619,6 +616,7 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
         margin-top: 50px;
+        margin-bottom: 30px;
       }
 
       .video-item {
@@ -798,6 +796,7 @@
         align-items: center;
         opacity: 1;
         transform: translateY(0);
+        margin-top: 20px;
       }
 
       .author-img {
@@ -893,6 +892,7 @@
       .team-member.visible .team-social {
         opacity: 1;
         transform: translateY(0);
+        transition-delay: 0.2s;
       }
 
       .team-social a {
@@ -1343,22 +1343,23 @@
       /* Touch device improvements */
       @media (hover: none) and (pointer: coarse) {
         .portfolio-item {
-          cursor: default;
-        }
-
-        .portfolio-overlay {
-          opacity: 0.9;
-        }
-
-        .portfolio-overlay h3,
-        .portfolio-overlay p {
-          transform: translateY(0);
+          cursor: pointer;
         }
 
         .service-card:hover,
         .team-member:hover,
         .news-card:hover {
           transform: none;
+        }
+
+        /* Fix for iOS scrolling */
+        body {
+          -webkit-overflow-scrolling: touch;
+        }
+
+        /* Ensure smooth scrolling for anchor links */
+        html {
+          scroll-behavior: smooth;
         }
       }
 
@@ -2382,7 +2383,7 @@
       window.addEventListener("load", checkScroll);
       window.addEventListener("scroll", checkScroll);
 
-      // iOS-specific fixes
+      // Touch device improvements
       document.addEventListener("DOMContentLoaded", function () {
         // Check if the device is iOS
         const isIOS =
@@ -2393,48 +2394,38 @@
           navigator.userAgent
         );
 
-        // Apply fixes for iOS or Safari
-        if (isIOS || isSafari) {
-          console.log("iOS/Safari detected - applying touch optimizations");
+        // Check if it's a touch device
+        const isTouchDevice =
+          "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-          // Fix for portfolio items - add touch event listeners
-          const portfolioItems = document.querySelectorAll(".portfolio-item");
-          portfolioItems.forEach((item) => {
-            // Add touch start event
-            item.addEventListener("touchstart", function (e) {
-              e.preventDefault();
-              // Remove active class from all items
-              portfolioItems.forEach((item) =>
-                item.classList.remove("ios-active")
-              );
-              // Add active class to this item
-              this.classList.add("ios-active");
-            });
+        // Fix for video items - add touch event listeners
+        const videoContainers = document.querySelectorAll(
+          ".ios-video-container"
+        );
+        videoContainers.forEach((container) => {
+          const video = container.querySelector("video");
+          const playButton = container.querySelector(".ios-play-button");
 
-            // Add touch end event to document to remove active class
-            document.addEventListener("touchend", function (e) {
-              if (!e.target.closest(".portfolio-item")) {
-                portfolioItems.forEach((item) =>
-                  item.classList.remove("ios-active")
-                );
+          // Show play button initially for iOS/Safari
+          if ((isIOS || isSafari) && playButton)
+            playButton.style.display = "flex";
+
+          // Handle video play on button click
+          if (playButton && video) {
+            playButton.addEventListener("click", function (e) {
+              e.stopPropagation();
+              if (video.paused) {
+                video.play();
+                playButton.style.display = "none";
+              } else {
+                video.pause();
+                playButton.style.display = "flex";
               }
             });
-          });
 
-          // Fix for video items - add touch event listeners
-          const videoContainers = document.querySelectorAll(
-            ".ios-video-container"
-          );
-          videoContainers.forEach((container) => {
-            const video = container.querySelector("video");
-            const playButton = container.querySelector(".ios-play-button");
-
-            // Show play button initially for iOS
-            if (playButton) playButton.style.display = "flex";
-
-            // Handle video play on button click
-            if (playButton && video) {
-              playButton.addEventListener("click", function (e) {
+            // Also make the video toggle play on touch for touch devices
+            if (isTouchDevice) {
+              container.addEventListener("click", function (e) {
                 e.stopPropagation();
                 if (video.paused) {
                   video.play();
@@ -2443,40 +2434,18 @@
                   video.pause();
                   playButton.style.display = "flex";
                 }
-              });
-
-              // Also make the video toggle play on touch
-              container.addEventListener("touchstart", function (e) {
-                e.stopPropagation();
-                if (video.paused) {
-                  video.play();
-                  playButton.style.display = "none";
-                } else {
-                  video.pause();
-                  playButton.style.display = "flex";
-                }
-              });
-
-              // Show play button when video ends
-              video.addEventListener("ended", function () {
-                if (playButton) playButton.style.display = "flex";
               });
             }
-          });
 
-          // Improve touch feedback for buttons
-          const buttons = document.querySelectorAll(".btn, .filter-btn");
-          buttons.forEach((btn) => {
-            btn.addEventListener("touchstart", function () {
-              this.style.transform = "scale(0.95)";
+            // Show play button when video ends
+            video.addEventListener("ended", function () {
+              if (playButton) playButton.style.display = "flex";
             });
+          }
+        });
 
-            btn.addEventListener("touchend", function () {
-              this.style.transform = "";
-            });
-          });
-        } else {
-          // For non-iOS devices, play videos on hover
+        // For non-touch devices, play videos on hover
+        if (!isTouchDevice) {
           const videoItems = document.querySelectorAll(".video-item video");
           videoItems.forEach((video) => {
             video.addEventListener("mouseover", () => {
